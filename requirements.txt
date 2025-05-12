@@ -1,0 +1,7 @@
+streamlit
+tensorflow
+Pillow
+requests
+numpy
+google-generativeai
+streamlit-carousel
