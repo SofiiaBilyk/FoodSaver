@@ -1,7 +1,9 @@
-streamlit
+streamlit>=1.25,<2.0
 tensorflow
+protobuf<4
 Pillow
 requests
 numpy
 google-generativeai
 streamlit-carousel
+tornado>=6.0,<7.0
