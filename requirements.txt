@@ -7,3 +7,5 @@ numpy
 google-generativeai
 streamlit-carousel
 tornado>=6.0,<7.0
+transformers
+

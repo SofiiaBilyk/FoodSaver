@@ -22,6 +22,7 @@ import numpy as np
 import google.generativeai as genai
 from streamlit_carousel import carousel
 import json
+from transformers import pipeline
 
 # --- Mock Data and Utilities ---
 
@@ -206,16 +207,16 @@ def detect_top_food_in_image(image):
 
 def get_gemini_api_key():
     try:
-        with open("gemini_key.txt", "r") as f:
+        with open(".env", "r") as f:
             return f.read().strip()
     except FileNotFoundError:
-        st.error("Please create gemini_key.txt with your API key")
+        st.error("Please create gemini API key")
         return None
 
 def get_gemini_recipes(fridge_items):
     try:
         # Read API key from file
-        with open('gemini_key.txt', 'r') as file:
+        with open('.env', 'r') as file:
             api_key = file.read().strip()
         
         # Configure Gemini
@@ -270,7 +271,7 @@ def get_gemini_recipes(fridge_items):
         return response.text
         
     except FileNotFoundError:
-        st.error("❌ Error: gemini_key.txt file not found. Please create the file with your API key.")
+        st.error("❌ Error: .env file not found. Please create the file with your API key.")
         return None
     except Exception as e:
         st.error(f"❌ Gemini API connection failed: {e}")
@@ -326,6 +327,8 @@ if uploaded_file is not None:
     st.success("Image uploaded!")
 
     st.subheader("AI Food Detection")
+    classifier = pipeline("image-classification", model="google/vit-base-patch16-224")
+    results = classifier(image)
     top_pred = detect_top_food_in_image(image)
     class_name = top_pred[1]
     score = top_pred[2] * 100
